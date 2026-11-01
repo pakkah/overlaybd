@@ -890,6 +890,7 @@ int UblkDevice::resize(uint64_t new_size_bytes, bool resize_fs, std::string &err
         err = "image resize failed (see the overlaybd log)";
         return -1;
     }
+    file_->num_lbas = new_size_bytes / file_->block_size;
     // then tell the kernel; sectors of 512
     int r = ublk_raw_ctrl_cmd(UBLK_U_CMD_UPDATE_SIZE, dev_id_, new_size_bytes >> 9);
     if (r < 0) {
